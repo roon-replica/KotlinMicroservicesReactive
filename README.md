@@ -9,7 +9,10 @@
   스프링부트 2부터 non-blocking IO인 reactive 서비스를 위해 Netty를 선택
 
 - webflux는 reactive stream pattern을 구현하기 위해 Reactor 프레임워크를 많이 쓴다고 함...
-  
+
+### 정적 컨텐츠 제공하기
+- blocking IO vs non-blocking IO
+- https://techblog.bozho.net/why-non-blocking/
 
 # 생각들
 - reactive stream pattern 모름
