@@ -1,7 +1,9 @@
 package kot.microservices.reactive
 
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toFlux
 import reactor.kotlin.core.publisher.toMono
 import java.util.concurrent.ConcurrentHashMap
 
@@ -19,8 +21,9 @@ class CustomerServiceImpl : CustomerService {
 
     override fun getCustomer(id: Int): Mono<Customer>? = customers[id]?.toMono()
 
-    override fun searchCustomers(nameFilter: String): List<Customer> =  // 리턴타입 생략해도 되지
+    override fun searchCustomers(nameFilter: String): Flux<Customer> =  // 리턴타입 생략해도 되지
         customers.filter { it.value.name.contains(nameFilter, true) }
             .map { e -> e.value }
             .toList()
+            .toFlux()
 }
