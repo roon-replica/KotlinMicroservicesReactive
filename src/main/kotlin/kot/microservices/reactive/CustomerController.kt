@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 import java.util.Locale.IsoCountryCode
 
 data class Customer(var id: Int = 0, val name: String = "", val telephone: Telephone? = null)
@@ -17,7 +19,7 @@ class CustomerController {
     lateinit var customerService: CustomerService
 
     @GetMapping("/customer/{id}")
-    fun getCustomer(@PathVariable id: Int): ResponseEntity<Customer> {
+    fun getCustomer(@PathVariable id: Int): ResponseEntity<Mono<Customer>> {
         return ResponseEntity.ok(customerService.getCustomer(id))
     }
 
@@ -25,5 +27,4 @@ class CustomerController {
     @GetMapping("/customers")
     fun getCustomersByNameFilter(@RequestParam(required = false, defaultValue = "") nameFilter: String) =
         ResponseEntity.ok(customerService.searchCustomers(nameFilter))
-
 }
