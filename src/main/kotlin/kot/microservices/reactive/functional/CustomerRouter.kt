@@ -17,11 +17,15 @@ class CustomerRouter(private val customerHandler: CustomerHandler) { // @Autowir
     fun customerRoutes(): RouterFunction<*> = router {
         "/functional".nest {
             "/customer".nest {
-                GET("/") {
-                     it:ServerRequest -> customerHandler.get(it)
-                }
+//                GET("/") {
+//                     it:ServerRequest -> customerHandler.get(it)
+//                }
 
                 GET("/", customerHandler::get)
+
+                GET("/{id}", customerHandler::get)
+
+                POST("/", customerHandler::get)
             }
 
             "/customer2".nest {

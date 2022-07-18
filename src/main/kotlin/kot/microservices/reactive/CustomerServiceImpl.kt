@@ -20,7 +20,7 @@ class CustomerServiceImpl : CustomerService {
 
     val customers = ConcurrentHashMap<Int, Customer>(sampleCustomers.associateBy(Customer::id))
 
-    override fun getCustomer(id: Int): Mono<Customer>? = customers[id]?.toMono()
+    override fun getCustomer(id: Int): Mono<Customer> = customers[id]?.toMono() ?: Mono.empty()
 
     override fun searchCustomers(nameFilter: String): Flux<Customer> =  // 리턴타입 생략해도 되지
         customers.filter { it.value.name.contains(nameFilter, true) }
