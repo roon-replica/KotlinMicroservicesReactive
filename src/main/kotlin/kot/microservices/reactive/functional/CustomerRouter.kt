@@ -1,7 +1,6 @@
 package kot.microservices.reactive.functional
 
 import kot.microservices.reactive.Customer
-import kot.microservices.reactive.CustomerHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.RouterFunction
@@ -10,7 +9,7 @@ import org.springframework.web.reactive.function.server.router
 import reactor.kotlin.core.publisher.toMono
 
 @Component
-class CustomerRouter(private val customerHandler: CustomerHandler) {
+class CustomerRouter(private val customerHandler: CustomerHandler) { // @Autowired 대신 생성자 주입하는 방식
 //    @Autowired
 //    lateinit var customerHandler: CustomerHandler
 
@@ -18,19 +17,16 @@ class CustomerRouter(private val customerHandler: CustomerHandler) {
     fun customerRoutes(): RouterFunction<*> = router {
         "/functional".nest {
             "/customer".nest {
-//                GET("/") {
-//                     it:ServerRequest -> customerHandler.get(it)
-//                }
+                GET("/") {
+                     it:ServerRequest -> customerHandler.get(it)
+                }
 
                 GET("/", customerHandler::get)
             }
 
             "/customer2".nest {
                 GET("/") { it: ServerRequest ->
-                    println(it)
-                    println(it.attributes())
-                    println(it.cookies())
-                    println(it.session())
+                    println("uri = ${it.uri()} headers = ${it.headers()} cookie = ${it.cookies()} session = ${it.session()}")
                     ok().body(Customer(2, "functional web2").toMono(), Customer::class.java)
 
                 }
