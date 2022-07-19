@@ -35,6 +35,10 @@ class CustomerRouter(private val customerHandler: CustomerHandler) { // @Autowir
 
                 }
             }
+
+            "/customers".nest {
+                GET("/", customerHandler::search)
+            }
         }
     }
 

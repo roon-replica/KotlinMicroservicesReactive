@@ -28,7 +28,14 @@ class CustomerHandler(val customerService: CustomerService) {
 
     fun get(serverRequest: ServerRequest) =
         customerService.getCustomer(serverRequest.pathVariable("id").toInt())
-            .flatMap{ ok().body(fromObject(it))}        // fromObject메서드 deprecated 됐다고 뜸
+            .flatMap { ok().body(fromObject(it)) }        // fromObject메서드 deprecated 됐다고 뜸
 //            .switchIfEmpty(notFound().build())
             .switchIfEmpty(status(HttpStatus.NOT_FOUND).build())
+
+    fun search(serverRequest: ServerRequest) =
+//        ok().body(customerService.searchCustomers(""),Customer::class.java)
+        ok().body(
+            customerService.searchCustomers(serverRequest.queryParam("nameFilter").orElse("")),
+            Customer::class.java
+        )
 }
