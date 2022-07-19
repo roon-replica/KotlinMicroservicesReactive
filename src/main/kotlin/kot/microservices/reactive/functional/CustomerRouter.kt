@@ -21,11 +21,9 @@ class CustomerRouter(private val customerHandler: CustomerHandler) { // @Autowir
 //                     it:ServerRequest -> customerHandler.get(it)
 //                }
 
-                GET("/", customerHandler::get)
-
                 GET("/{id}", customerHandler::get)
 
-                POST("/", customerHandler::get)
+                POST("/", customerHandler::create)
             }
 
             "/customer2".nest {
